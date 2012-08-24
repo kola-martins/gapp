@@ -12,14 +12,15 @@ class GappUser(db.Model):
   lastseen  = db.DateTimeProperty()
   friends = db.ListProperty(db.Key) # list of friends
   avatar = db.BlobProperty()
-  status  = db.StringProperty()
   email = db.EmailProperty()
+  status = db.StringProperty()
+
 class Status(db.Model):
-    userid = db.ReferenceProperty(GappUser, collection_name= 'status_updates')
+    userid = db.ReferenceProperty(GappUser, collection_name= 'status_updates',required= True)
     statusmsg = db.StringProperty();
-    statustime = db.DateTimeProperty()
+    statustime = db.DateTimeProperty(auto_now = True)
   
-class ChatMessage(db.Model):
+class Message(db.Model):
   sender = db.ReferenceProperty(GappUser, collection_name='sent_msgs')
   receiver = db.ReferenceProperty(GappUser, collection_name='received_msgs')
   message = db.StringProperty(required = True)

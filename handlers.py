@@ -21,11 +21,6 @@ class adduser(webapp.RequestHandler):
 class userexists(webapp.RequestHandler):
   def get(self):
     return
-
-class login(webapp.RequestHandler):
-  def post(self):
-    userphone = self.request.get("phone")
-    datamethods.login(userphone)
     
 class updatestatus(webapp.RequestHandler):
   def post(self):
@@ -49,11 +44,32 @@ class sendmessage(webapp.RequestHandler):
     
 class logout(webapp.RequestHandler):
   def post(self):
-    return
+    data = simplejson.loads(self.request.body) 
+    if len(data):
+      phone = data["phone"]
+      datamethods.login(phone)
+    return simplejson.dumps('{"status": True}')
 
 class welcome(webapp.RequestHandler):
   def get(self):
-    self.response.out.write("you are welcome") 
+    self.response.out.write("you are welcome to connect2share do av a great time using this awesome platform") 
+
+class login(webapp.RequestHandler):
+  def post(self):
+    data = simplejson.loads(self.request.body) 
+    if len(data):
+      phone = data["phone"]
+      datamethods.login(phone)
+    return simplejson.dumps('{"status": True}')
+                            
+
+# end of the handlers                          
+
+
+
+
+
+
 
 #mapping urls to method calls
 app = webapp.WSGIApplication([('/',welcome),
