@@ -35,6 +35,11 @@ def getusers():
   return GappUser.all()
 # checks if a user already exists with teh details supplied
 
+def getuserkey(phone):
+  g_user = GappUser.gql("WHERE phonenumber == :1",phone).get() # get user with the phone number in question
+  currentuser = db.get(g_user.key().id()) # gets the id of the user having the phone.
+  return currentuser
+  
 def userexists(n_user): #done
   users = GappUser.all()
   for user in users:
@@ -130,16 +135,11 @@ def respondtorequest(repsonse):
   return 
 # indicates that the user is online i.e. actively using the app
 def login(phone):
-    #add the user to teh lsit of online users
-# indicates that the user is not actively using gapp
-  g_user = GappUser.gql("WHERE phonenumber == :1",phone).get() # get user with the phone number in question
-  currentuser = db.get(g_user.key().id()) # gets the id of the user having the phone.
+  currentuser = getuserkey(phone)
   onlineusers.append(currentuser)
   return 
 def logout(phone):
-    #remove the user from teh list of online users
-  g_user = GappUser.gql("WHERE phonenumber == :1",phone).get() # get user with the phone number in question
-  currentuser = db.get(g_user.key().id()) 
+  currentuser = getuserkey(phone) 
   onlineusers.remove(currentuser)
     
 def getusersonline():

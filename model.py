@@ -12,7 +12,8 @@ class GappUser(db.Model):
   lastseen  = db.DateTimeProperty()
   friends = db.ListProperty(db.Key) # list of friends
   avatar = db.BlobProperty()
-  
+  status  = db.StringProperty()
+  email = db.EmailProperty()
 class Status(db.Model):
     userid = db.ReferenceProperty(GappUser, collection_name= 'status_updates')
     statusmsg = db.StringProperty();
